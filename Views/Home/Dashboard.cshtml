@@ -1,0 +1,511 @@
+﻿@{
+    ViewData["Title"] = "Student Dashboard";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>CampusKonnect - Dashboard</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <style>
+        :root {
+            --forest: #244C3A;
+            --forest-dark: #193A2B;
+            --sage: #648A70;
+            --soft-sage: #E5EEE7;
+            --light: #F6F8F6;
+            --white: #FFFFFF;
+            --dark: #26352C;
+            --muted: #718078;
+            --border: #E3EAE4;
+            --shadow: 0 18px 45px rgba(36, 76, 58, .08);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background:
+                radial-gradient(circle at 90% 5%, rgba(220, 233, 223, .55), transparent 24rem),
+                var(--light);
+            color: var(--dark);
+            font-family: "Segoe UI", Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a,
+        button {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .topbar {
+            min-height: 76px;
+            padding: 14px max(5%, calc((100% - 1160px) / 2));
+            background: rgba(255, 255, 255, .94);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            color: var(--forest);
+            font-size: 21px;
+            font-weight: 750;
+            letter-spacing: -.4px;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: var(--forest);
+            color: var(--white);
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+
+        .logout-form {
+            margin: 0;
+        }
+
+        .logout-btn {
+            min-height: 42px;
+            padding: 9px 18px;
+            border: 1px solid #CBD8CE;
+            border-radius: 9px;
+            background: var(--white);
+            color: var(--forest);
+            font: inherit;
+            font-size: 14px;
+            font-weight: 650;
+            cursor: pointer;
+            transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-1px);
+            border-color: var(--forest);
+            background: var(--forest);
+            color: var(--white);
+        }
+
+        .logout-btn:focus-visible,
+        .explore-btn:focus-visible {
+            outline: 3px solid rgba(100, 138, 112, .45);
+            outline-offset: 3px;
+        }
+
+        .dashboard-container {
+            width: min(100% - 40px, 1120px);
+            margin: 0 auto;
+            padding: 52px 0 72px;
+        }
+
+        .welcome-panel {
+            position: relative;
+            min-height: 280px;
+            margin-bottom: 46px;
+            padding: clamp(28px, 5vw, 54px);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(200px, .6fr);
+            align-items: center;
+            gap: 28px;
+            border: 1px solid #DCE8DE;
+            border-radius: 24px;
+            background: linear-gradient(118deg, #FFFFFF 0%, #F1F6F1 65%, #E8F0E9 100%);
+            box-shadow: var(--shadow);
+        }
+
+        .welcome-copy {
+            position: relative;
+            z-index: 1;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 15px;
+            color: var(--sage);
+            font-size: 12px;
+            font-weight: 750;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            width: 20px;
+            height: 2px;
+            border-radius: 2px;
+            background: var(--sage);
+            content: "";
+        }
+
+        .welcome-section h1 {
+            margin: 0 0 13px;
+            color: var(--forest);
+            font-size: clamp(30px, 4vw, 43px);
+            font-weight: 760;
+            letter-spacing: -1.4px;
+            line-height: 1.15;
+            overflow-wrap: anywhere;
+        }
+
+        .welcome-section p {
+            max-width: 540px;
+            margin: 0;
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.75;
+        }
+
+        .welcome-art {
+            position: relative;
+            min-height: 190px;
+            display: grid;
+            place-items: center;
+        }
+
+        .art-orbit {
+            position: absolute;
+            width: 210px;
+            height: 210px;
+            border: 1px solid rgba(100, 138, 112, .25);
+            border-radius: 50%;
+        }
+
+        .art-orbit::before,
+        .art-orbit::after {
+            position: absolute;
+            border: 1px solid rgba(100, 138, 112, .2);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .art-orbit::before {
+            inset: 17px;
+        }
+
+        .art-orbit::after {
+            inset: 35px;
+        }
+
+        .art-icon {
+            position: relative;
+            z-index: 1;
+            width: 112px;
+            height: 112px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, .8);
+            border-radius: 30px;
+            background: linear-gradient(145deg, #FFFFFF, #E5EEE7);
+            box-shadow: 0 16px 34px rgba(36, 76, 58, .14);
+            font-size: 52px;
+            transform: rotate(-5deg);
+            transition: transform .25s ease;
+        }
+
+        .welcome-panel:hover .art-icon {
+            transform: rotate(0) translateY(-3px);
+        }
+
+        .section-heading {
+            margin-bottom: 19px;
+        }
+
+        .section-title {
+            margin: 0;
+            color: var(--forest);
+            font-size: 23px;
+            font-weight: 730;
+            letter-spacing: -.4px;
+        }
+
+        .section-subtitle {
+            margin: 7px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 360px));
+            gap: 20px;
+        }
+
+        .module-card {
+            min-height: 100%;
+            padding: 26px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: var(--white);
+            box-shadow: 0 8px 24px rgba(36, 76, 58, .035);
+            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            border-color: #B8CCBC;
+            box-shadow: 0 16px 32px rgba(36, 76, 58, .10);
+        }
+
+        .module-icon {
+            width: 54px;
+            height: 54px;
+            margin-bottom: 22px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            background: var(--soft-sage);
+            color: var(--forest);
+            font-size: 27px;
+        }
+
+        .module-card h3 {
+            margin: 0 0 10px;
+            color: var(--forest);
+            font-size: 20px;
+            font-weight: 720;
+        }
+
+        .module-card p {
+            margin: 0 0 22px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        .explore-btn {
+            min-height: 44px;
+            padding: 11px 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border-radius: 9px;
+            background: var(--forest);
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 650;
+            text-decoration: none;
+            transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+        }
+
+        .explore-btn:hover {
+            transform: translateY(-2px);
+            background: var(--forest-dark);
+            box-shadow: 0 7px 16px rgba(36, 76, 58, .18);
+            color: var(--white);
+        }
+
+        .explore-arrow {
+            font-size: 18px;
+            line-height: 1;
+            transition: transform .2s ease;
+        }
+
+        .explore-btn:hover .explore-arrow {
+            transform: translateX(3px);
+        }
+
+        @@media (max-width: 700px) {
+            .dashboard-container {
+                width: min(100% - 32px, 560px);
+                padding-top: 32px;
+                padding-bottom: 48px;
+            }
+
+            .welcome-panel {
+                min-height: auto;
+                margin-bottom: 34px;
+                padding: 30px 25px;
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .welcome-art {
+                min-height: 145px;
+            }
+
+            .art-orbit {
+                width: 160px;
+                height: 160px;
+            }
+
+            .art-icon {
+                width: 88px;
+                height: 88px;
+                border-radius: 24px;
+                font-size: 42px;
+            }
+
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .module-card {
+                padding: 23px;
+            }
+        }
+
+        @@media (max-width: 420px) {
+            .topbar {
+                min-height: 68px;
+                padding: 12px 16px;
+            }
+
+            .brand {
+                gap: 8px;
+                font-size: 18px;
+            }
+
+            .brand-mark {
+                width: 34px;
+                height: 34px;
+                border-radius: 10px;
+                font-size: 13px;
+            }
+
+            .logout-btn {
+                min-height: 40px;
+                padding: 8px 13px;
+                font-size: 13px;
+            }
+
+            .dashboard-container {
+                width: calc(100% - 28px);
+                padding-top: 24px;
+            }
+
+            .welcome-panel {
+                padding: 25px 20px;
+                border-radius: 19px;
+            }
+
+            .welcome-section h1 {
+                font-size: 30px;
+            }
+
+            .welcome-section p {
+                font-size: 14px;
+            }
+
+            .section-title {
+                font-size: 21px;
+            }
+        }
+
+        @@media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <a class="brand" href="#" aria-label="CampusKonnect dashboard">
+            <span class="brand-mark" aria-hidden="true">CK</span>
+            <span>CampusKonnect</span>
+        </a>
+
+        <form asp-controller="Account"
+              asp-action="Logout"
+              method="post"
+              class="logout-form">
+
+            @Html.AntiForgeryToken()
+
+            <button type="submit" class="logout-btn">
+                Logout
+            </button>
+        </form>
+    </header>
+
+    <main class="dashboard-container">
+        <section class="welcome-panel welcome-section" aria-labelledby="welcome-title">
+            <div class="welcome-copy">
+                <p class="eyebrow">Student dashboard</p>
+
+                <h1 id="welcome-title">Welcome, @ViewBag.FullName!</h1>
+
+                <p>
+                    Welcome to CampusKonnect. Connect, participate
+                    and explore campus opportunities.
+                </p>
+            </div>
+
+            <div class="welcome-art" aria-hidden="true">
+                <div class="art-orbit"></div>
+                <div class="art-icon">🎓</div>
+            </div>
+        </section>
+
+        <section aria-labelledby="modules-title">
+            <div class="section-heading">
+                <h2 class="section-title" id="modules-title">Explore our modules</h2>
+                <p class="section-subtitle">
+                    Find campus opportunities and get involved.
+                </p>
+            </div>
+
+            <div class="module-grid">
+                <article class="module-card">
+                    <div class="module-icon" aria-hidden="true">🎓</div>
+
+                    <h3>Campus Activities</h3>
+
+                    <p>
+                        Discover campus events, create activities
+                        and connect with other students.
+                    </p>
+
+                    <a asp-controller="Activities"
+                       asp-action="Index"
+                       asp-route-filter="all"
+                       class="explore-btn">
+                        <span>Explore Activities</span>
+                        <span class="explore-arrow" aria-hidden="true">→</span>
+                    </a>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

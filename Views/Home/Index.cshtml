@@ -1,0 +1,646 @@
+﻿@{
+    ViewData["Title"] = "CampusKonnect";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>CampusKonnect - One Campus. Endless Connections.</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <style>
+        :root {
+            --forest: #244C3A;
+            --forest-dark: #193A2B;
+            --sage: #648A70;
+            --soft-sage: #E5EEE7;
+            --light: #F6F8F6;
+            --dark: #26352C;
+            --muted: #718078;
+            --border: #E3EAE4;
+            --shadow: 0 16px 38px rgba(36, 76, 58, .08);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: #FFFFFF;
+            color: var(--dark);
+            font-family: "Segoe UI", Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a,
+        button {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .site-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            padding: 13px max(5%, calc((100% - 1160px) / 2));
+            border-bottom: 1px solid var(--border);
+            background: rgba(255, 255, 255, .96);
+            backdrop-filter: blur(12px);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--forest);
+            font-size: 21px;
+            font-weight: 760;
+            letter-spacing: -.4px;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: var(--forest);
+            color: #FFFFFF;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+
+        .navbar-nav {
+            align-items: center;
+            gap: 8px;
+        }
+
+        .site-navbar .nav-link {
+            padding: 9px 13px;
+            border-radius: 8px;
+            color: var(--dark);
+            font-size: 14px;
+            font-weight: 600;
+            transition: background .2s ease, color .2s ease;
+        }
+
+        .site-navbar .nav-link:hover,
+        .site-navbar .nav-link:focus-visible {
+            background: var(--soft-sage);
+            color: var(--forest);
+        }
+
+        .navbar-toggler {
+            padding: 7px 9px;
+            border-color: #CBD8CE;
+            border-radius: 9px;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 3px rgba(100, 138, 112, .2);
+        }
+
+        .hero {
+            position: relative;
+            min-height: 520px;
+            padding: 68px 20px;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 82% 42%, rgba(220, 233, 223, .75), transparent 22rem),
+                linear-gradient(115deg, #FFFFFF 0%, #F8FAF8 100%);
+        }
+
+        .hero-inner {
+            width: min(100%, 1120px);
+            min-height: 380px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(260px, .8fr);
+            align-items: center;
+            gap: 40px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .tagline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 8px 14px;
+            border: 1px solid #D7E5D9;
+            border-radius: 30px;
+            background: var(--soft-sage);
+            color: var(--forest);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .tagline::before {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--sage);
+            content: "";
+        }
+
+        .hero h1 {
+            margin: 0 0 19px;
+            color: var(--forest);
+            font-size: clamp(40px, 6vw, 64px);
+            font-weight: 780;
+            letter-spacing: -2px;
+            line-height: 1.08;
+        }
+
+        .hero p {
+            max-width: 590px;
+            margin: 0 0 27px;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-main,
+        .btn-outline {
+            min-height: 48px;
+            padding: 12px 21px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--forest);
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+        }
+
+        .btn-main {
+            background: var(--forest);
+            color: #FFFFFF;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-2px);
+            background: var(--forest-dark);
+            box-shadow: 0 8px 18px rgba(36, 76, 58, .18);
+            color: #FFFFFF;
+        }
+
+        .btn-outline {
+            background: #FFFFFF;
+            color: var(--forest);
+        }
+
+        .btn-outline:hover {
+            transform: translateY(-2px);
+            background: var(--soft-sage);
+            color: var(--forest);
+        }
+
+        .hero-art {
+            position: relative;
+            min-height: 320px;
+            display: grid;
+            place-items: center;
+        }
+
+        .art-circle {
+            position: absolute;
+            width: 285px;
+            height: 285px;
+            border: 1px solid rgba(100, 138, 112, .23);
+            border-radius: 50%;
+        }
+
+        .art-circle::before,
+        .art-circle::after {
+            position: absolute;
+            border: 1px solid rgba(100, 138, 112, .18);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .art-circle::before {
+            inset: 20px;
+        }
+
+        .art-circle::after {
+            inset: 43px;
+        }
+
+        .art-card {
+            position: relative;
+            z-index: 1;
+            width: min(270px, 85%);
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, .9);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, .9);
+            box-shadow: 0 20px 50px rgba(36, 76, 58, .13);
+            text-align: center;
+            transform: rotate(2deg);
+            transition: transform .25s ease;
+        }
+
+        .hero-art:hover .art-card {
+            transform: rotate(0) translateY(-4px);
+        }
+
+        .art-emoji {
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 15px;
+            display: grid;
+            place-items: center;
+            border-radius: 25px;
+            background: linear-gradient(145deg, #F1F6F1, #DCE9DF);
+            font-size: 45px;
+        }
+
+        .art-card strong {
+            display: block;
+            color: var(--forest);
+            font-size: 17px;
+        }
+
+        .art-card span {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .modules {
+            padding: 68px 20px 78px;
+            background: var(--light);
+            text-align: center;
+        }
+
+        .modules-inner {
+            width: min(100%, 1120px);
+            margin: 0 auto;
+        }
+
+        .modules h2 {
+            margin: 0 0 10px;
+            color: var(--forest);
+            font-size: clamp(27px, 4vw, 35px);
+            font-weight: 750;
+            letter-spacing: -.7px;
+        }
+
+        .section-description {
+            max-width: 580px;
+            margin: 0 auto 34px;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .module-card {
+            height: 100%;
+            padding: 27px 25px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: #FFFFFF;
+            box-shadow: 0 7px 22px rgba(36, 76, 58, .035);
+            text-align: left;
+            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            border-color: #B8CCBC;
+            box-shadow: var(--shadow);
+        }
+
+        .module-icon {
+            width: 52px;
+            height: 52px;
+            margin-bottom: 19px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: var(--soft-sage);
+            font-size: 25px;
+        }
+
+        .module-card h3 {
+            margin: 0 0 10px;
+            color: var(--forest);
+            font-size: 18px;
+            font-weight: 720;
+        }
+
+        .module-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        footer {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            background: #FFFFFF;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .btn-main:focus-visible,
+        .btn-outline:focus-visible,
+        .site-navbar .nav-link:focus-visible {
+            outline: 3px solid rgba(100, 138, 112, .45);
+            outline-offset: 3px;
+        }
+
+        @@media (max-width: 768px) {
+            .site-navbar {
+                padding: 12px 20px;
+            }
+
+            .site-navbar .navbar-collapse {
+                padding-top: 12px;
+            }
+
+            .navbar-nav {
+                align-items: stretch;
+                gap: 2px;
+            }
+
+            .site-navbar .nav-link {
+                margin: 0;
+                padding: 10px 12px;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 54px 22px 48px;
+            }
+
+            .hero-inner {
+                min-height: auto;
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .hero-content {
+                text-align: center;
+            }
+
+            .hero p {
+                margin-right: auto;
+                margin-left: auto;
+                font-size: 16px;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .hero-art {
+                min-height: 245px;
+            }
+
+            .art-circle {
+                width: 220px;
+                height: 220px;
+            }
+
+            .modules {
+                padding: 54px 20px 60px;
+            }
+
+            .module-card {
+                padding: 23px;
+            }
+        }
+
+        @@media (max-width: 420px) {
+            .site-navbar {
+                padding-right: 14px;
+                padding-left: 14px;
+            }
+
+            .brand {
+                gap: 8px;
+                font-size: 19px;
+            }
+
+            .brand-mark {
+                width: 35px;
+                height: 35px;
+                border-radius: 10px;
+            }
+
+            .hero {
+                padding: 42px 17px 38px;
+            }
+
+            .hero h1 {
+                font-size: 39px;
+                letter-spacing: -1.4px;
+            }
+
+            .hero p {
+                font-size: 15px;
+                line-height: 1.7;
+            }
+
+            .hero-actions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .btn-main,
+            .btn-outline {
+                padding-right: 12px;
+                padding-left: 12px;
+            }
+
+            .modules {
+                padding: 45px 16px 50px;
+            }
+
+            .section-description {
+                margin-bottom: 26px;
+            }
+        }
+
+        @@media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
+        .navbar .navbar-nav .nav-link,
+.navbar .navbar-nav .nav-link:visited {
+    color: var(--dark);
+    text-decoration: none;
+}
+
+.navbar .navbar-nav .nav-link:hover,
+.navbar .navbar-nav .nav-link:focus {
+    color: var(--sage);
+    text-decoration: none;
+}
+
+.navbar .navbar-nav .nav-link[aria-current="page"] {
+    color: var(--forest);
+    font-weight: 700;
+    text-decoration: none;
+}
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg site-navbar" aria-label="Main navigation">
+        <div class="container-fluid p-0">
+            <a class="brand" asp-controller="Home" asp-action="Index">
+                <span class="brand-mark" aria-hidden="true">CK</span>
+                <span>CampusKonnect</span>
+            </a>
+
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="mainNavbar">
+                <div class="navbar-nav">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                   <a class="nav-link" asp-controller="Home" asp-action="About">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-inner">
+                <div class="hero-content">
+                    <span class="tagline">Your Campus. Your Community.</span>
+
+                    <h1>One Campus.<br />Endless Connections.</h1>
+
+                    <p>
+                        CampusKonnect brings students together in one place.
+                        Discover campus activities, share your skills, and
+                        connect with fellow students through a smarter campus community.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a class="btn-main"
+                           asp-controller="Account"
+                           asp-action="Register">
+                            Get Started
+                        </a>
+
+                        <a class="btn-outline"
+                           asp-controller="Account"
+                           asp-action="Login">
+                            Login
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-art" aria-hidden="true">
+                    <div class="art-circle"></div>
+                    <div class="art-card">
+                        <div class="art-emoji">🎓</div>
+                        <strong>Find your community</strong>
+                        <span>Connect, learn and take part</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="modules" aria-labelledby="modules-title">
+            <div class="modules-inner">
+                <h2 id="modules-title">Explore CampusKonnect</h2>
+
+                <p class="section-description">
+                    Everything you need to connect and collaborate on campus.
+                </p>
+
+                <div class="row g-3 g-lg-4">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <article class="module-card">
+                            <div class="module-icon" aria-hidden="true">🎓</div>
+                            <h3>Campus Activities</h3>
+                            <p>
+                                Discover activities, participate in events,
+                                and create memorable campus experiences.
+                            </p>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <article class="module-card">
+                            <div class="module-icon" aria-hidden="true">🤝</div>
+                            <h3>Skill Swap</h3>
+                            <p>
+                                Connect with students, exchange knowledge,
+                                and learn new skills together.
+                            </p>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <article class="module-card">
+                            <div class="module-icon" aria-hidden="true">📚</div>
+                            <h3>Student Trade</h3>
+                            <p>
+                                Buy, sell, and exchange study materials
+                                within your student community.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        © 2026 CampusKonnect. Connecting Students, Building Community.
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

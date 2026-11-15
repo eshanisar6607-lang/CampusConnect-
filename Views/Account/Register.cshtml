@@ -1,0 +1,244 @@
+﻿@model CampusKonnect.Models.RegisterViewModel
+
+@{
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+    ViewData["Title"] = "Create Account";
+}
+
+<style>
+    .register-page {
+        min-height: calc(100vh - 80px);
+        padding: 48px 16px;
+        display: flex;
+        align-items: center;
+        background:
+            radial-gradient(circle at 85% 10%, rgba(220, 233, 223, .6), transparent 24rem),
+            #F6F8F6;
+    }
+
+    .register-card {
+        width: 100%;
+        max-width: 510px;
+        margin: 0 auto;
+        padding: clamp(24px, 5vw, 40px);
+        border: 1px solid #E3EAE4;
+        border-radius: 20px;
+        background: #FFFFFF;
+        box-shadow: 0 18px 45px rgba(36, 76, 58, .09);
+    }
+
+    .register-heading {
+        margin-bottom: 26px;
+        text-align: center;
+    }
+
+    .register-mark {
+        width: 48px;
+        height: 48px;
+        margin: 0 auto 16px;
+        display: grid;
+        place-items: center;
+        border-radius: 15px;
+        background: #244C3A;
+        color: #FFFFFF;
+        font-size: 16px;
+        font-weight: 800;
+    }
+
+    .register-heading h1 {
+        margin: 0 0 8px;
+        color: #244C3A;
+        font-size: clamp(25px, 5vw, 30px);
+        font-weight: 750;
+        letter-spacing: -.6px;
+    }
+
+    .register-heading p {
+        margin: 0;
+        color: #718078;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .register-form .form-label {
+        margin-bottom: 7px;
+        color: #34483A;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .register-form .form-control {
+        min-height: 47px;
+        padding: 11px 13px;
+        border: 1px solid #D5DED7;
+        border-radius: 9px;
+        color: #26352C;
+        font-size: 14px;
+        transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .register-form .form-control::placeholder {
+        color: #98A39B;
+    }
+
+    .register-form .form-control:focus {
+        border-color: #648A70;
+        box-shadow: 0 0 0 3px rgba(100, 138, 112, .15);
+    }
+
+    .register-form .text-danger {
+        display: block;
+        margin-top: 5px;
+        font-size: 12px;
+    }
+
+    .register-validation:empty {
+        display: none;
+    }
+
+    .register-validation {
+        padding: 11px 13px;
+        border: 1px solid #F0D0D0;
+        border-radius: 9px;
+        background: #FFF7F7;
+        font-size: 13px;
+    }
+
+    .register-validation ul {
+        margin: 0;
+        padding-left: 18px;
+    }
+
+    .register-submit {
+        min-height: 48px;
+        margin-top: 5px;
+        border: 0;
+        border-radius: 9px;
+        background: #244C3A;
+        color: #FFFFFF;
+        font-size: 14px;
+        font-weight: 700;
+        transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+    }
+
+    .register-submit:hover {
+        transform: translateY(-2px);
+        background: #193A2B;
+        box-shadow: 0 7px 16px rgba(36, 76, 58, .18);
+        color: #FFFFFF;
+    }
+
+    .register-submit:focus-visible {
+        outline: 3px solid rgba(100, 138, 112, .4);
+        outline-offset: 3px;
+    }
+
+    .register-footer {
+        margin: 21px 0 0;
+        color: #718078;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .register-footer a {
+        color: #244C3A;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .register-footer a:hover {
+        color: #648A70;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    @@media (max-width: 576px) {
+        .register-page {
+            min-height: auto;
+            padding: 28px 13px;
+        }
+
+        .register-card {
+            border-radius: 16px;
+        }
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            transition-duration: .01ms !important;
+        }
+    }
+</style>
+
+<main class="register-page">
+    <section class="register-card" aria-labelledby="register-title">
+        <header class="register-heading">
+            <div class="register-mark" aria-hidden="true">CK</div>
+            <h1 id="register-title">Create your account</h1>
+            <p>Join CampusKonnect and connect with your campus community.</p>
+        </header>
+
+        <form asp-action="Register"
+              method="post"
+              class="register-form">
+
+            <div asp-validation-summary="All"
+                 class="text-danger mb-3 register-validation"
+                 role="alert"></div>
+
+            <div class="mb-3">
+                <label asp-for="FullName" class="form-label">Full Name</label>
+                <input asp-for="FullName"
+                       class="form-control"
+                       placeholder="Enter your full name"
+                       autocomplete="name" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">UET Email</label>
+                <input asp-for="Email"
+                       class="form-control"
+                       placeholder="2024-SE-255@student.uet.edu.pk"
+                       autocomplete="email"
+                       inputmode="email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">Password</label>
+                <input asp-for="Password"
+                       class="form-control"
+                       placeholder="Enter password"
+                       autocomplete="new-password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                <input asp-for="ConfirmPassword"
+                       class="form-control"
+                       placeholder="Confirm password"
+                       autocomplete="new-password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn register-submit w-100">
+                Create Account
+            </button>
+        </form>
+
+        <p class="register-footer">
+            Already have an account?
+            <a asp-controller="Account" asp-action="Login">Log in</a>
+        </p>
+    </section>
+</main>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
